@@ -24,4 +24,17 @@ Public product page
 - Bright Data CLI
 - A Bright Data Scraper Studio Collector ID
 - A public target page that is allowed to be scraped
-- 
+- ## Quick start
+
+1. Log in to Bright Data:
+
+```bash
+npx -p @brightdata/cli bdata login
+```
+
+2. Create a scraper:
+
+```bash
+npx -p @brightdata/cli bdata scraper create "<TARGET_URL>" "Extract product name, price, currency, availability, rating, discount, and product URL as structured JSON."
+```
+
