@@ -59,4 +59,5 @@ The project is designed for publicly available pages only. It does not use login
 - `prompts/create-prompt.md` — Scraper Studio creation prompt
 - `LICENSE` — MIT license
 - `.gitignore` — prevents common secrets and junk files from being committed
-- 
+
+- https://github.com/saniyakhan0786-stack/Scrap-verse-hackathon-
