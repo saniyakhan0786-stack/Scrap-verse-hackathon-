@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Product Price Tracker</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f4f6f8; color: #17202a; }
+    header { background: #101827; color: white; padding: 28px 18px; }
+    main { max-width: 1050px; margin: 24px auto; padding: 0 16px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 14px; margin-bottom: 20px; }
+    .card { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 2px 10px #00000012; }
+    .value { font-size: 28px; font-weight: 700; margin-top: 6px; }
+    .table-wrap { overflow-x: auto; background: white; border-radius: 12px; box-shadow: 0 2px 10px #00000012; }
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    th, td { padding: 13px; text-align: left; border-bottom: 1px solid #e7e9ed; }
+    th { background: #f8fafc; }
+    .yes { color: #087f3e; font-weight: 700; }
+    .no { color: #b42318; font-weight: 700; }
+    a { color: #155eef; }
+    small { opacity: .75; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Smart Product Price Tracker</h1>
+  <p>Structured product data powered by Bright Data Scraper Studio</p>
+</header>
+
+<main>
+  <section class="cards">
+    <div class="card"><small>Products</small><div class="value" id="count">0</div></div>
+    <div class="card"><small>Available</small><div class="value" id="available">0</div></div>
+    <div class="card"><small>Lowest price</small><div class="value" id="lowest">—</div></div>
+  </section>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Availability</th>
+          <th>Rating</th>
+          <th>Discount</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="products"></tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+const demoData = [
+  {
+    product_name: "Example Laptop A",
+    price: 45999,
+    currency: "INR",
+    availability: "In Stock",
+    rating: 4.4,
+    discount: "12%",
+    product_url: "#"
+  },
+  {
+    product_name: "Example Laptop B",
+    price: 52999,
+    currency: "INR",
+    availability: "In Stock",
+    rating: 4.6,
+    discount: "8%",
+    product_url: "#"
+  },
+  {
+    product_name: "Example Laptop C",
+    price: 39999,
+    currency: "INR",
+    availability: "Out of Stock",
+    rating: 4.1,
+    discount: "15%",
+    product_url: "#"
+  }
+];
+
+const money = (p, c) => `${c === "INR" ? "₹" : ""}${Number(p).toLocaleString("en-IN")}`;
+
+document.getElementById("count").textContent = demoData.length;
+document.getElementById("available").textContent =
+  demoData.filter(x => String(x.availability).toLowerCase().includes("in stock")).length;
+
+const prices = demoData.map(x => Number(x.price)).filter(Number.isFinite);
+document.getElementById("lowest").textContent =
+  prices.length ? money(Math.min(...prices), demoData[0].currency) : "—";
+
+document.getElementById("products").innerHTML = demoData.map(p => {
+  const available = String(p.availability).toLowerCase().includes("in stock");
+  return `<tr>
+    <td>${p.product_name ?? "—"}</td>
+    <td>${money(p.price, p.currency)}</td>
+    <td class="${available ? "yes" : "no"}">${p.availability ?? "—"}</td>
+    <td>${p.rating ?? "—"}</td>
+    <td>${p.discount ?? "—"}</td>
+    <td><a href="${p.product_url || "#"}" target="_blank">Open</a></td>
+  </tr>`;
+}).join("");
+</script>
+</body>
+</html>
